@@ -23,32 +23,38 @@ const Tenzies = () => {
 
   const [win, setWin] = useState(false); //перемога
 
+  const [count, setCount] = useState(0);
+
   //2) функція, яка буде блокувати одну фішку, фарбувати її в зелений(якщо на фішку натиснуули, то її isLocked став true). так як в цю фун-ю нам має приходити id кожної фішки, то ми у виклик цієї фун-ї його і передамою Цю фун-ю ми передамо на онклік на кожну фішку.
   const lockDice = (diceId) => {
+  
     //Після 5-ї фун-ї ми пропишемо перевірку, що якщо win true, виконай просто return і код нижче не виконуй. Таким чином ми фіксимо. що якщо коли летять конфеті юзер захоче розблокувати фішки, то не зміг цього зробити
     if (win) {
       return;
     }
     //прийме в себе тенз з id
     const newLockDice = tenzies.map((dice) => {
-      //прописуємо нову фун-ю в якій мапимося по всьому масиву з тензисами(по кожній фішці)
+      //прописуємо нову фун-ю в якій мапимося по всьому масиву з фішками (по кожній фішці)
       if (dice.id === diceId) {
-        //якщо id тенза з масиву збігаться з id який ми передали у функ-ю, то
+        //якщо id фішки з масиву збігаться з id який ми передали у функ-ю, то
         return {
           //повертаємо
           ...dice,
-          isLocked: !dice.isLocked, // спредимо старий тенз, а isLocked ставиться на обернене значення(був true, став false i навпаки)
+          isLocked: !dice.isLocked, // спредимо старий масив фішок, а isLocked ставиться на обернене значення(був true, став false i навпаки)
+     
         };
       } else {
         //інакше
-        return dice; //просто поверни той же тенз
+        return dice; //просто поверни ту ж фішку
       }
     });
     setTenzies(newLockDice);
+ 
   };
 
   //3) фун-я яка буде ролити(якщо тут не підходять фішки, буде рандомні нові викидати) і її підключимо на кнопку ролл
   const rollDice = () => {
+    const addCount = () => setCount((prevCount) => prevCount + 1);
     const newRoll = tenzies.map((dice) => {
       //в новій змінній будемо мапитися по масиву з тензисами
       if (dice.isLocked) {
@@ -63,6 +69,7 @@ const Tenzies = () => {
       }
     });
     setTenzies(newRoll); //стейт змінюємо на новий
+    addCount();
   };
 
   //5) Функ-я, яка буде при setWin(true) при натисканні на кнопку Roll міняти на нову гру. Тобто гру закінчили і щоб створилася нова. Що має відбууватися: а)-фішки мають бути на false, б)- числа у всіх фішок рандомні, в)- напис на кнопці має змінюватися на New Game
@@ -71,6 +78,7 @@ const Tenzies = () => {
     setTenzies(createTenzies(numberDice)); //передамо її у виклик
     //але щоб коли ми виграли і створилася нова гра, то потрібно щоб забралося конфеті і напис знову повернувся на roll. Це все у нас з'являлося. коли win true, тому ми маєммо для нової гри    setWin поставити назад на false. На true воно встановлювалося при перевірці в UseEffect
     setWin(false);
+    setCount(0);
   };
 
   //6)фун-я яка буде змінювати розмір поля, додавати певну кіл-ть фішок. в [numberDice, setNumberDice]= useState(10); ми прописали, що по дефолту їх 10
@@ -123,7 +131,7 @@ const Tenzies = () => {
         {tenzies.map((dice) => (
           <div
             key={dice.id}
-            className={dice.isLocked ? "tenz locked" : "tenz"}
+            className={dice.isLocked ? "dice locked" : "dice"}
             onClick={() => lockDice(dice.id)}
           >
             {dice.number}
@@ -145,6 +153,8 @@ const Tenzies = () => {
         <button onClick={moreOfDice}>More dice</button>
         <button onClick={lessOfDice}>Less dice</button>
       </div>
+
+      <h2 className="count">Step: {count}</h2>
     </>
   );
 };

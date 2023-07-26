@@ -52,7 +52,7 @@
   flex-wrap: wrap;
   gap: 17.92px;
 }
-.tenz {
+.dice {
   width: 35.84px;
   height: 35.84px;
   display: flex;
@@ -86,4 +86,11 @@ button {
 .change {
   display: flex;
   gap: 10px;
+}
+.count{
+  color: #4a4e74;
+  text-align: center;
+  font-size: 13.107px;
+  font-weight: 400;
+  margin-top: 10px;
 }
