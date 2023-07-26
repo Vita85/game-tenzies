@@ -19,7 +19,7 @@
   display: flex;
   flex-direction: column;
   width: 320px;
-  height: 320px;
+  /* height: 320px; */
   padding: 33.28px 34.56px 33.92px 34.56px;
   justify-content: center;
   align-items: center;
@@ -82,4 +82,8 @@ button {
   text-align: center;
   font-size: 16.384px;
   font-weight: 700;
+}
+.change {
+  display: flex;
+  gap: 10px;
 }
